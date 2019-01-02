@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name Show Total Unsolved by Difficulty (LeetCode)
+// @name Better Stats Bar (LeetCode)
 // @namespace https://greasyfork.org/en/users/128831-marvinyan
 // @match https://leetcode.com/problemset/algorithms/
 // @grant none
-// @require https://gist.githubusercontent.com/sidneys/ae661c222ebf6ce4cd9c7b4235f1dcc2/raw/659ec6a056fbd9298ef0ec49dd4007530367988e/waitforkeyelements-2018.js
+// @require https://greasyfork.org/scripts/374849-library-onelementready-es6/code/Library%20%7C%20onElementReady%20ES6.js?version=649483
 // ==/UserScript==
 (() => {
   const LC_ALGO_API = 'https://leetcode.com/api/problems/algorithms/';
@@ -61,5 +61,5 @@
     updateStatsBar(counts);
   };
 
-  waitForKeyElements('#welcome', run, true);
+  waitForKeyElements('#welcome', run);
 })();
