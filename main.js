@@ -1,9 +1,11 @@
 // ==UserScript==
-// @name Better Stats Bar (LeetCode)
-// @namespace https://greasyfork.org/en/users/128831-marvinyan
-// @match https://leetcode.com/problemset/algorithms/
-// @grant none
-// @require https://greasyfork.org/scripts/374849-library-onelementready-es6/code/Library%20%7C%20onElementReady%20ES6.js?version=649483
+// @name            Better Stats Bar (LeetCode)
+// @description     Adds total questions per difficulty to the stats bar.
+// @namespace       https://greasyfork.org/en/users/128831-marvinyan
+// @match           https://leetcode.com/problemset/algorithms/
+// @grant           none
+// @require         https://greasyfork.org/scripts/374849-library-onelementready-es6/code/Library%20%7C%20onElementReady%20ES6.js?version=649483
+// @version 0.0.1.20190102075610
 // ==/UserScript==
 (() => {
   const LC_ALGO_API = 'https://leetcode.com/api/problems/algorithms/';
