@@ -1,38 +1,43 @@
 // ==UserScript==
 // @name            Better Stats Bar (LeetCode)
-// @description     Adds total questions per difficulty to the stats bar.
+// @description     Shows total questions per difficulty to the stats bar.
 // @namespace       https://greasyfork.org/en/users/128831-marvinyan
 // @match           https://leetcode.com/problemset/algorithms/
-// @grant           none
+// @grant           GM.getValue
+// @grant           GM.setValue
+// @grant           GM_getValue
+// @grant           GM_setValue
+// @require         https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require         https://greasyfork.org/scripts/374849-library-onelementready-es6/code/Library%20%7C%20onElementReady%20ES6.js?version=649483
-// @version 0.0.1.20190102075610
 // ==/UserScript==
+
 (() => {
   const LC_ALGO_API = 'https://leetcode.com/api/problems/algorithms/';
+  const CACHE_DURATION_MS = 10 * 1000; // Optional rate limit (default: 10s)
+  const CURRENT_TIME_MS = new Date().getTime();
 
-  const getData = url =>
-    new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
+  const getData = async url => {
+    const lastCheck = await GM.getValue('lastCheck', Number.MAX_VALUE);
+    const cachedJsonStr = await GM.getValue('cachedJsonStr', null);
+    const timeSinceCheck = CURRENT_TIME_MS - lastCheck;
 
-      xhr.open('GET', url, true);
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          resolve(xhr.response);
-        } else {
-          reject({
-            status: xhr.status,
-            statusText: xhr.statusText
-          });
-        }
-      };
-      xhr.onerror = () => {
-        reject({
-          status: xhr.status,
-          statusText: xhr.statusText
-        });
-      };
-      xhr.send();
+    return new Promise(resolve => {
+      if (timeSinceCheck < CACHE_DURATION_MS && cachedJsonStr !== null) {
+        resolve(cachedJsonStr);
+      } else {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            GM.setValue('lastCheck', CURRENT_TIME_MS);
+            GM.setValue('cachedJsonStr', xhr.responseText);
+            resolve(xhr.responseText);
+          }
+        };
+        xhr.send();
+      }
     });
+  };
 
   const parseData = response => {
     const counts = [0, 0, 0];
