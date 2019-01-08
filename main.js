@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name            Better Stats Bar (LeetCode)
-// @description     Shows total questions per difficulty to the stats bar.
+// @name            Better Statsbar (LeetCode)
+// @description     Show the total number of questions per difficulty in LeetCode's statsbar.
 // @namespace       https://greasyfork.org/en/users/128831-marvinyan
 // @match           https://leetcode.com/problemset/algorithms/
 // @grant           GM.getValue
