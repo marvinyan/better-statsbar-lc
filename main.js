@@ -2,7 +2,7 @@
 // @name            Better Statsbar (LeetCode)
 // @description     Show the total number of questions per difficulty in LeetCode's statsbar.
 // @namespace       https://greasyfork.org/en/users/128831-marvinyan
-// @match           https://leetcode.com/problemset/algorithms/
+// @match           https://leetcode.com/problemset/*
 // @grant           GM.getValue
 // @grant           GM.setValue
 // @grant           GM_getValue
@@ -12,11 +12,14 @@
 // ==/UserScript==
 
 (() => {
-  const LC_ALGO_API = 'https://leetcode.com/api/problems/algorithms/';
-  const CACHE_DURATION_MS = 10 * 1000; // Optional rate limit (default: 10s)
+  const BASE_URL_LC = 'https://leetcode.com/api/problems/';
+  const CACHE_DURATION_MS = 0 * 1000; // Optional rate limit (default: 0s)
   const CURRENT_TIME_MS = new Date().getTime();
 
-  const getData = async url => {
+  const getData = async () => {
+    const problemCategory = window.location.pathname.split('/')[2];
+    const url = BASE_URL_LC + problemCategory;
+
     const lastCheck = await GM.getValue('lastCheck', Number.MAX_VALUE);
     const cachedJsonStr = await GM.getValue('cachedJsonStr', null);
     const timeSinceCheck = CURRENT_TIME_MS - lastCheck;
@@ -63,7 +66,7 @@
   };
 
   const run = async () => {
-    const data = await getData(LC_ALGO_API);
+    const data = await getData();
     const counts = parseData(data);
     updateStatsBar(counts);
   };
